@@ -3,5 +3,8 @@ members = [
     "00001_hello_world",
     "00002_hello_cargo",
     "00003_unit_tests",
-    "00004_rust_book_1/task_001"
+
+    "00004_rust_book_1/task_001",
+
+    "00005_rust_book_2/001_hello_world"
 ]
