@@ -1,0 +1,5 @@
+[package]
+name = "web_service"
+version = "0.1.0"
+authors = ["MRW Neundorf <ninevillage@gmail.com>"]
+edition = "2018"
