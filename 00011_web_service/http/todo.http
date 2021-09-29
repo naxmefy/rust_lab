@@ -54,6 +54,7 @@ client.test("Response body.checked is 'false'", function() {
 });
 
 client.global.set("first_todo_id", response.body.id);
+client.global.set("first_todo_name", response.body.name);
 client.global.set("first_todo_checked", response.body.checked);
 
 %}
@@ -73,16 +74,18 @@ client.test("Response content-type is json", function() {
 });
 
 client.test("Response body.name is 'Some Todo'", function() {
-  var name = response.body.name;
+  // Endpoint returns an array....
+  var name = response.body[0].name;
   client.assert(name === 'Some Todo', "Expected 'Some Todo' for Body property 'name' but received '" + name + "'");
 });
 
-var expectedChecked = client.global.get("first_todo_checked");
+var expectedChecked = client.global.get("first_todo_checked") === 'true';
 client.test("Response body.checked is '" + expectedChecked + "'", function() {
-  var checked = response.body.checked;
+  // Endpoint returns an array....
+  var checked = response.body[0].checked;
   client.assert(
       checked === expectedChecked,
-      "Expected '"+expectedChecked+"' for Body property 'checked' but received '" + checked + "'"
+      "Expected '"+expectedChecked+"' ("+(typeof expectedChecked)+") for Body property 'checked' but received '" + checked + "' ("+(typeof checked)+")"
   );
 });
 
@@ -146,11 +149,11 @@ client.test("Response body contains only '1' array item", function() {
   client.assert(body.length === 1, "Expected length '1' but received '" + body.length + "'");
 });
 
-var id = client.global.get("second_todo_id");
+var id = Number(client.global.get("second_todo_id"));
 var name = client.global.get("second_todo_name");
 client.test("Response body contains '"+name+"'", function() {
-    var item = response.body[1];
-    client.assert(item.id === id, "Expected '"+id+"' but received '" + item.id + "'");
+    var item = response.body[0];
+    client.assert(item.id === id, "Expected '"+id+"' ("+(typeof id)+") but received '" + item.id + "' ("+(typeof item.id)+")");
     client.assert(item.name === name, "Expected '"+name+"' but received '" + item.name + "'");
 });
 
@@ -161,6 +164,7 @@ PUT {{url}}/todo/{{first_todo_id}}
 Content-Type: application/json
 
 {
+  "name": "{{first_todo_name}}",
   "checked": true
 }
 
