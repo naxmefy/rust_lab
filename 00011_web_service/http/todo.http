@@ -1,0 +1,221 @@
+### GET /todo and check response status is 200 and empty array is responded
+GET {{url}}/todo
+
+> {%
+
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+
+client.test("Response content-type is json", function() {
+  var type = response.contentType.mimeType;
+  client.assert(type === "application/json", "Expected 'application/json' but received '" + type + "'");
+});
+
+client.test("Response body is an array", function() {
+  var body = response.body;
+  client.assert(Array.isArray(body), "Expected an array but received '" + (typeof body) + "'");
+});
+
+client.test("Response body is an empty array", function() {
+  var body = response.body;
+  client.assert(body.length === 0, "Expected empty array but received '" + body + "'");
+});
+
+%}
+
+### POST /todo and check response status is 200 and some todo is responded (save id and checked)
+POST {{url}}/todo
+Content-Type: application/json
+
+{
+  "name": "Some Todo"
+}
+
+> {%
+
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+
+client.test("Response content-type is json", function() {
+  var type = response.contentType.mimeType;
+  client.assert(type === "application/json", "Expected 'application/json' but received '" + type + "'");
+});
+
+client.test("Response body.name is 'Some Todo'", function() {
+  var name = response.body.name;
+  client.assert(name === 'Some Todo', "Expected 'Some Todo' for Body property 'name' but received '" + name + "'");
+});
+
+client.test("Response body.checked is 'false'", function() {
+  var checked = response.body.checked;
+  client.assert(checked === false, "Expected 'false' for Body property 'checked' but received '" + checked + "'");
+});
+
+client.global.set("first_todo_id", response.body.id);
+client.global.set("first_todo_checked", response.body.checked);
+
+%}
+
+### GET /todo/{first_todo_id} and check response status is 200
+GET {{url}}/todo/{{first_todo_id}}
+
+> {%
+
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+
+client.test("Response content-type is json", function() {
+  var type = response.contentType.mimeType;
+  client.assert(type === "application/json", "Expected 'application/json' but received '" + type + "'");
+});
+
+client.test("Response body.name is 'Some Todo'", function() {
+  var name = response.body.name;
+  client.assert(name === 'Some Todo', "Expected 'Some Todo' for Body property 'name' but received '" + name + "'");
+});
+
+var expectedChecked = client.global.get("first_todo_checked");
+client.test("Response body.checked is '" + expectedChecked + "'", function() {
+  var checked = response.body.checked;
+  client.assert(
+      checked === expectedChecked,
+      "Expected '"+expectedChecked+"' for Body property 'checked' but received '" + checked + "'"
+  );
+});
+
+%}
+
+### POST /todo and check response status is 200 and second todo is responded (save id and name)
+POST {{url}}/todo
+Content-Type: application/json
+
+{
+  "name": "second todo"
+}
+
+> {%
+
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+
+client.test("Response content-type is json", function() {
+  var type = response.contentType.mimeType;
+  client.assert(type === "application/json", "Expected 'application/json' but received '" + type + "'");
+});
+
+client.test("Response body.name is 'second todo'", function() {
+  var name = response.body.name;
+  client.assert(name === 'second todo', "Expected 'Some Todo' for Body property 'name' but received '" + name + "'");
+});
+
+client.test("Response body.checked is 'false'", function() {
+  var checked = response.body.checked;
+  client.assert(checked === false, "Expected 'false' for Body property 'checked' but received '" + checked + "'");
+});
+
+client.global.set("second_todo_id", response.body.id);
+client.global.set("second_todo_name", response.body.name);
+
+%}
+
+### GET /todo?search={second_todo_name} and check response status is 200 and result contains second todo only
+GET {{url}}/todo?search={{second_todo_name}}
+
+> {%
+
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+
+client.test("Response content-type is json", function() {
+  var type = response.contentType.mimeType;
+  client.assert(type === "application/json", "Expected 'application/json' but received '" + type + "'");
+});
+
+client.test("Response body is an array", function() {
+  var body = response.body;
+  client.assert(Array.isArray(body), "Expected is array but received '" + body + "'");
+});
+
+client.test("Response body contains only '1' array item", function() {
+  var body = response.body;
+  client.assert(body.length === 1, "Expected length '1' but received '" + body.length + "'");
+});
+
+var id = client.global.get("second_todo_id");
+var name = client.global.get("second_todo_name");
+client.test("Response body contains '"+name+"'", function() {
+    var item = response.body[1];
+    client.assert(item.id === id, "Expected '"+id+"' but received '" + item.id + "'");
+    client.assert(item.name === name, "Expected '"+name+"' but received '" + item.name + "'");
+});
+
+%}
+
+### PUT /todo/{first_todo_id} and check response status is 200 and checked
+PUT {{url}}/todo/{{first_todo_id}}
+Content-Type: application/json
+
+{
+  "checked": true
+}
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+
+client.test("Response content-type is json", function() {
+  var type = response.contentType.mimeType;
+  client.assert(type === "application/json", "Expected 'application/json' but received '" + type + "'");
+});
+
+%}
+
+### DELETE /todo/{first_todo_id}
+DELETE {{url}}/todo/{{first_todo_id}}
+
+> {%
+
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+
+%}
+
+### DELETE /todo/{second_todo_id}
+DELETE {{url}}/todo/{{second_todo_id}}
+
+> {%
+
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+
+%}
+
+### GET /todo and check response status is 200 and empty array is responded
+GET {{url}}/todo
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+
+client.test("Response content-type is json", function() {
+  var type = response.contentType.mimeType;
+  client.assert(type === "application/json", "Expected 'application/json' but received '" + type + "'");
+});
+
+client.test("Response body is an empty array", function() {
+  var body = response.body;
+  //client.assert(body === 'Some Todo', "Expected 'Some Todo' for Body property 'name' but received '" + name + "'");
+  client.assert(Array.isArray(body), "Expected is array but received '" + body + "'")
+  client.assert(body.length === 0, "Expected empty array but received '" + body + "'")
+});
+
+%}
