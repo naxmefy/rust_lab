@@ -2,6 +2,8 @@
 
 just testing rust.
 
+> **HINT** Got question, ideas, etc.? Just open a discussion thread [here](https://github.com/naxmefy/rust_lab/discussions) 
+
 [![test](https://github.com/naxmefy/rust_lab/actions/workflows/test.yml/badge.svg)](https://github.com/naxmefy/rust_lab/actions/workflows/test.yml)
 
 ## todos
