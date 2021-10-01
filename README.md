@@ -14,7 +14,7 @@ just testing rust.
 - [ ] [00004_rust_book_1](/00004_rust_book_1)
 - [ ] [00005_rust_book_2](/00005_rust_book_2)
 - [ ] [00010_tui](/00010_tui)
-- [ ] [00011_web_service](/00011_web_service)
+- [x] [00011_web_service](/00011_web_service)
 - [ ] [00012_web_frontend](/00012_web_frontend)
 - [ ] [00013_web_fullstack](/00013_web_fullstack)
 
@@ -26,4 +26,8 @@ just testing rust.
 - [ ] cli + advanced cli features
 - [ ] dependency injection
 - [ ] databases + migrations
+- [ ] multiple databases
+- [ ] database connections on demand
+- [ ] database introspection
 - [ ] game engines
+- [ ] artefact generation / deployment
