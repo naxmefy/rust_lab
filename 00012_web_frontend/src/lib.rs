@@ -1,7 +1,19 @@
+#![recursion_limit = "256"]
+
+use serde_derive::Deserialize;
+use wasm_bindgen::prelude::*;
 use yew::format::{Json, Nothing};
 use yew::html;
 use yew::prelude::*;
-use yew::services::{FetchService, ConsoleService};
+use yew::services::{
+    fetch::{FetchService, FetchTask, Request, Response},
+    ConsoleService,
+};
+use yew_router::{components::RouterAnchor, router::Router, Switch};
+
+mod todo;
+
+pub type Anchor = RouterAnchor<AppRoute>;
 
 struct TodoApp {
     link: ComponentLink<Self>,
@@ -71,19 +83,49 @@ impl Component for TodoApp {
         let todos = self.todos.clone();
         let cb = self.link.callback(|_| Msg::MakeReq);
         ConsoleService::info(&format!("render TodoApp: {:?}", todos));
+
         html! {
             <div class=classes!("todo")>
-                <div>
-                    <div class=classes!("refresh")>
-                        <button onclick=cb.clone()>
-                            { "refresh" }
-                        </button>
-                    </div>
-                    <todo::list::List todos=todos.clone()/>
+                <div class=classes!("nav")>
+                    <Anchor route=AppRoute::Home>{"Home"}</Anchor>
+                </div>
+                <div class=classes!("content")>
+                    <Router<AppRoute, ()>
+                        render = Router::render(move |switch: AppRoute| {
+                            match switch {
+                                AppRoute::Detail(todo_id) => {
+                                    html! {
+                                        <div>
+                                            <todo::detail::Detail todo_id=todo_id/>
+                                        </div>}
+                                }
+                                AppRoute::Home => {
+                                    html! {
+                                        <div>
+                                            <div class=classes!("refresh")>
+                                                <button onclick=cb.clone()>
+                                                    { "refresh" }
+                                                </button>
+                                            </div>
+                                            <todo::list::List todos=todos.clone()/>
+                                        </div>
+                                    }
+                                }
+                            }
+                        })
+                    />
                 </div>
             </div>
         }
     }
+}
+
+#[derive(Switch, Clone, Debug)]
+pub enum AppRoute {
+    #[to = "/todo/{id}"]
+    Detail(i32),
+    #[to = "/"]
+    Home,
 }
 
 #[wasm_bindgen(start)]

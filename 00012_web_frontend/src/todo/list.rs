@@ -1,3 +1,6 @@
+use super::super::{Anchor, AppRoute, Todo};
+use yew::prelude::*;
+
 #[derive(Properties, Clone, PartialEq)]
 pub struct Props {
     pub todos: Option<Vec<Todo>>,
@@ -58,7 +61,9 @@ impl List {
         };
         html! {
             <div class=classes!("list-item", completed)>
-                { &todo.title }
+                <Anchor route=AppRoute::Detail(todo.id as i32)>
+                    { &todo.title }
+                </Anchor>
             </div>
         }
     }
