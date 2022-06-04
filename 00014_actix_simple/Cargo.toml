@@ -1,0 +1,8 @@
+[package]
+name = "actix_simple"
+version = "0.1.0"
+authors = ["MRW Neundorf <ninevillage@gmail.com>"]
+edition = "2021"
+
+[dependencies]
+actix-web = "4"

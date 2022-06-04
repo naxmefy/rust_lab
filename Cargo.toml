@@ -10,5 +10,7 @@ members = [
 
     "00011_web_service",
     "00012_web_frontend",
-    "00013_web_fullstack"
+    "00013_web_fullstack",
+
+    "00014_actix_simple"
 ]
