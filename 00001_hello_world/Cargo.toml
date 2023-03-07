@@ -1,5 +1,5 @@
 [package]
-name = "hello_world"
+name = "project_00001_hello_world"
 version = "0.1.0"
 authors = ["MRW Neundorf <ninevillage@gmail.com>"]
 edition = "2018"
