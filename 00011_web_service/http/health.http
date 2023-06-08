@@ -1,5 +1,5 @@
 ### GET /health and check response status is 200
-GET {{url}}/health
+GET http://localhost:8000/health
 
 > {%
 client.test("Request executed successfully", function() {

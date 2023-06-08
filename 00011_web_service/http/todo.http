@@ -1,5 +1,5 @@
 ### GET /todo and check response status is 200 and empty array is responded
-GET {{url}}/todo
+GET http://localhost:8000/todo
 
 > {%
 
