@@ -11,5 +11,7 @@ members = [
     "00012_web_frontend",
     "00013_web_fullstack",
 
-    "00014_actix_simple"
+    "00014_actix_simple",
+
+    "00015_web_warp_and_vite_to_single_binary"
 ]

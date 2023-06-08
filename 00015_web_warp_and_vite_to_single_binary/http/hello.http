@@ -1,0 +1,19 @@
+GET http://localhost:3030/hello/John
+
+> {%
+
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+
+    client.test("Response content-type is plain", function () {
+        const type = response.contentType.mimeType;
+        client.assert(type === "text/plain", "Expected 'application/json' but received '" + type + "'");
+    });
+
+    client.test("Response body contains 'Hello, John!'", function () {
+        const body = response.body;
+        client.assert(body === "Hello, John!", "Expected an 'Hello, John!' but received '" + body + "'");
+    });
+
+%}
