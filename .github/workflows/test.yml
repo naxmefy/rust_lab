@@ -10,9 +10,8 @@ jobs:
   pretest-node:
     strategy:
       matrix:
-        directory: [
-          "00015_web_warp_and_vite_to_single_binary/web"
-        ]
+        directory:
+          - "00015_web_warp_and_vite_to_single_binary/web"
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -28,6 +27,8 @@ jobs:
       - run: npm run --if-present build
   test:
     runs-on: ubuntu-latest
+    needs:
+      - pretest-node
     steps:
       - uses: actions/checkout@v3
       - uses: actions/cache@v3
