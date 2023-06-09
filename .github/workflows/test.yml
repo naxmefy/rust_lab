@@ -28,6 +28,7 @@ jobs:
       - run: npm run --if-present build
       - uses: actions/upload-artifact@v3
         with:
+          name: "${{ matrix.directory }}/dist"
           path: "${{ matrix.directory }}/dist"
           retention-days: 1
   test:
