@@ -7,6 +7,25 @@ on:
       - main
 
 jobs:
+  pretest-node:
+    strategy:
+      matrix:
+        directory: [
+          "00015_web_warp_and_vite_to_single_binary/web"
+        ]
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ matrix.directory }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run --if-present test
+      - run: npm run --if-present build
   test:
     runs-on: ubuntu-latest
     steps:
