@@ -26,11 +26,7 @@ jobs:
       - run: npm ci
       - run: npm run --if-present test
       - run: npm run --if-present build
-#      - uses: andstor/file-existence-action@v2
-#        with:
-#          files: ${{ matrix.directory }}/dist
       - uses: actions/upload-artifact@v3
-        # if: steps.check_files.outputs.files_exists == 'true'
         with:
           path: "${{ matrix.directory }}/dist"
           retention-days: 1
@@ -41,8 +37,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: actions/download-artifact@v2
-        with:
-          path: "**/dist"
       - uses: actions/cache@v3
         with:
           path: |
