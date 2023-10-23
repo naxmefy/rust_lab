@@ -1,4 +1,5 @@
 [workspace]
+resolver = "2"
 members = [
     "00001_hello_world",
     "00002_hello_cargo",
@@ -13,5 +14,7 @@ members = [
 
     "00014_actix_simple",
 
-    "00015_web_warp_and_vite_to_single_binary"
+    "00015_web_warp_and_vite_to_single_binary",
+
+    "00100_tui/ratatui/*"
 ]
