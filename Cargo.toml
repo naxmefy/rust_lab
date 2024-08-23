@@ -17,5 +17,6 @@ members = [
     "00015_web_warp_and_vite_to_single_binary",
 
     "00100_tui/ratatui/*",
-    "00200_tensor/*"
+    "00200_tensor/*",
+    "00300_leptos/*"
 ]
