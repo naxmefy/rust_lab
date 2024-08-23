@@ -1,0 +1,22 @@
+[package]
+name = "project_00100_ratatui_4_stopwatch"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+color-eyre = "0.6.3"
+crossterm = { version = "0.27.0", features = ["event-stream"] }
+directories = "5.0.1"
+futures = "0.3.30"
+human-panic = "1.2.3"
+itertools = "0.12.1"
+libc = "0.2.153"
+log = "0.4.21"
+ratatui = "0.26.1"
+strip-ansi-escapes = "0.2.0"
+strum = "0.26.2"
+tokio = { version = "1.37.0", features = ["full"] }
+tokio-util = "0.7.8"
+tui-big-text = "0.4.3"
